@@ -35,7 +35,7 @@
        * Called when the client library is loaded.
        */
       function handleClientLoad() {
-        checkAuth();
+        gapi.auth.init(checkAuth);
       }
 
       /**
