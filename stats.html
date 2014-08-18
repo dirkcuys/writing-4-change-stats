@@ -7,6 +7,7 @@
     <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
     <script type="text/javascript">
       var CLIENT_ID = '585006561260-90e9ktc7m2vjh6e0k7e05jdp2qgbh1kj.apps.googleusercontent.com';
+      var API_KEY = 'AIzaSyApk0CWJnKFd_BIkBZTL88XBhmrN1Md-C8';
       var SCOPES = [
           'https://www.googleapis.com/auth/drive.file',
           'https://www.googleapis.com/auth/userinfo.email',
@@ -18,6 +19,7 @@
        * Called when the client library is loaded.
        */
       function handleClientLoad() {
+        gapi.client.setApiKey(API_KEY);
         gapi.auth.init(checkAuth);
       }
 
