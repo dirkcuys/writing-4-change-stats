@@ -201,7 +201,7 @@ function getCollaborators(fileId, callback){
     var collaborators = [];
     revisions.items.forEach(function(revision){
         if (collaborators.indexOf(revision.lastModifyingUserName) == -1){
-            collaborators.push(revision.lastModifyingUserName);
+            collaborators.push('' + revision.lastModifyingUserName);
         }
     });
     callback(collaborators);
