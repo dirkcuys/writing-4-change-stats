@@ -165,6 +165,7 @@ function makeApiCall() {
                   fileObj.ownerNames.forEach(function(ownerName){
                       if (ownerName != userName){
                         addCollabLink(ownerName, userName);
+                        updateD3();
                       }
                   });
                   var revElem = document.createElement('li');
@@ -174,7 +175,7 @@ function makeApiCall() {
               elem.appendChild(collaboratorList);
             });
         }
-        document.getElementById('filelist').appendChild(elem);
+        //document.getElementById('filelist').appendChild(elem);
       });
     });
   });
