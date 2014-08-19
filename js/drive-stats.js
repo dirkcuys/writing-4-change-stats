@@ -44,13 +44,6 @@ function updateD3(){
 
     var nodes = svg.selectAll("circle").data(authors);
 
-    nodes.enter().append("circle")
-        .attr("cx", function(d){ return d.x; })
-        .attr("cy", function(d){ return d.y; })
-        .style({'fill': function(d){ return d3.rgb(255,255*Math.random(),64*Math.random()).toString() }})
-        .attr("r", 8);
-        .call(force.drag);
-
     var force = d3.layout.force()
         .nodes(authors)
         .charge(function(d){ return -0.5*d.r; })
@@ -58,6 +51,14 @@ function updateD3(){
         .linkDistance(20)
         .gravity(0)
         .size([width/2.0, height/2.0]);
+
+    nodes.enter().append("circle")
+        .attr("cx", function(d){ return d.x; })
+        .attr("cy", function(d){ return d.y; })
+        .style({'fill': function(d){ return d3.rgb(255,255*Math.random(),64*Math.random()).toString() }})
+        .attr("r", 8)
+        .call(force.drag);
+
 
     force.on("tick", function(e){
         // Push nodes toward their designated focus.
@@ -82,9 +83,6 @@ function updateD3(){
 
 }
 
-
-function update_link_data(){
-}
 
 Array.prototype.indexOfOrAdd = function(key){
     if(this.indexOf(key) == -1){
