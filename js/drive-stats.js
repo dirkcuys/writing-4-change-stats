@@ -203,7 +203,7 @@ function getCollaborators(fileId, callback){
   getFileRevisions(fileId, function(revisions){
     var collaborators = [];
     revisions.items.forEach(function(revision){
-        if (collaborators.indexOf(revision.lastModifyingUserName) == -1){
+        if (collaborators.indexOf('' + revision.lastModifyingUserName) == -1){
             collaborators.push('' + revision.lastModifyingUserName);
         }
     });
