@@ -16,11 +16,7 @@ var collabData = [];
 var authors = [];
 
 var width = 500, height = 500;
-
-var svg = d3.select("svg")
-    .attr("width", width)
-    .attr("height", height);
-
+var force; 
 
 function updateD3(){
     var link_data = [];
@@ -28,12 +24,16 @@ function updateD3(){
         if (collabData[sourceIndex] && collabData[sourceIndex].links){
             collabData[sourceIndex].links.forEach(function(target){
                 link_data.push({
-                    source: authors[sourceIndex],
-                    target: authors[authors.indexOf(target)]
+                    source: collabData[sourceIndex],
+                    target: collabData[authors.indexOf(target)]
                 });
             });
         }
     });
+
+    var svg = d3.select("svg")
+        .attr("width", width)
+        .attr("height", height);
 
     var links = svg.selectAll(".link").data(link_data);
     links.enter().append("line")
@@ -44,10 +44,10 @@ function updateD3(){
         .attr("y2", function(d) { return d.target.y; })
         .style('stroke-width', '1');
 
-    var nodes = svg.selectAll("circle").data(authors);
+    var nodes = svg.selectAll("circle").data(collabData);
 
-    var force = d3.layout.force()
-        .nodes(authors)
+    force = d3.layout.force()
+        .nodes(collabData)
         .charge(function(d){ return -0.5*d.r; })
         .links(link_data)
         .linkDistance(20)
@@ -65,7 +65,7 @@ function updateD3(){
     force.on("tick", function(e){
         // Push nodes toward their designated focus.
         var k = .1 * e.alpha;
-        authors.forEach(function(o, i){
+        collabData.forEach(function(o, i){
             o.y += (height/2.0 - o.y) * k;
             o.x += (width/2.0 - o.x) * k;
         });
@@ -99,6 +99,9 @@ function addCollabLink(from, to){
     var tI = authors.indexOfOrAdd(to);
     if (collabData[fI] == undefined){
         collabData[fI] = {"label": from, "links": []};
+    }
+    if (collabData[tI] == undefined){
+        collabData[tI] = {"label": to, "links": []};
     }
     collabData[fI].links.indexOfOrAdd(to);
 }
