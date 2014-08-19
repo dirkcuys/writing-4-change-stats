@@ -67,7 +67,7 @@ function makeApiCall() {
     retrieveAllFiles(function(result){
       result.forEach(function(fileObj){
         var elem = document.createElement('li');
-        elem.innerHtml = fileObj.title;
+        elem.innerHTML = fileObj.title;
         document.getElementById('filelist').appendChild(elem);
       });
     });
