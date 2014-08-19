@@ -34,11 +34,11 @@ var labels = svg.selectAll(".labels").data(collabData);
 
 force.on("tick", function(e){
     // Push nodes toward their designated focus.
-    /*var k = .1 * e.alpha;
+    var k = .1 * e.alpha;
     collabData.forEach(function(o, i){
         o.y += (height/2.0 - o.y) * k;
         o.x += (width/2.0 - o.x) * k;
-    });*/
+    });
    
     nodes.attr("cx", function(d){ return d.x; })
         .attr("cy", function(d){ return d.y; });
