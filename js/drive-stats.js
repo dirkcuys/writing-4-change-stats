@@ -72,7 +72,7 @@ function makeApiCall() {
             // get stats
             getFileRevisions(fileObj.id, function(revisions){
               var revList = document.createElement('ul');
-              revisions.forEach(function(revision){
+              revisions.items.forEach(function(revision){
                   var revElem = document.createElement('li');
                   revElem.innerHTML = revision.lastModifyingUserName;
                   revList.appendChild(revElem);
