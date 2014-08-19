@@ -21,7 +21,70 @@ var svg = d3.select("svg")
     .attr("width", width)
     .attr("height", height);
 
-var force = d3.layout.force();
+
+function updateD3(){
+    var link_data = [];
+    authors.forEach(function (source, sourceIndex){
+        collabData[sourceIndex].links.forEach(function(target){
+            link_data.push({
+                source: authors[sourceIndex],
+                target: authors[authors.indexOf(target)]
+            });
+        });
+    });
+
+    var links = svg.selectAll(".link").data(link_data);
+    links.enter().append("line")
+        .attr("class", "link")
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; })
+        .style('stroke-width', '1');
+
+    var nodes = svg.selectAll("circle").data(authors);
+
+    nodes.enter().append("circle")
+        .attr("cx", function(d){ return d.x; })
+        .attr("cy", function(d){ return d.y; })
+        .style({'fill': function(d){ return d3.rgb(255,255*Math.random(),64*Math.random()).toString() }})
+        .attr("r", 8);
+        .call(force.drag);
+
+    var force = d3.layout.force()
+        .nodes(authors)
+        .charge(function(d){ return -0.5*d.r; })
+        .links(link_data)
+        .linkDistance(20)
+        .gravity(0)
+        .size([width/2.0, height/2.0]);
+
+    force.on("tick", function(e){
+        // Push nodes toward their designated focus.
+        var k = .1 * e.alpha;
+        authors.forEach(function(o, i){
+            o.y += (height/2.0 - o.y) * k;
+            o.x += (width/2.0 - o.x) * k;
+        });
+       
+        nodes.attr("cx", function(d){ return d.x; })
+            .attr("cy", function(d){ return d.y; });
+            //labels.attr("transform", function(d){ return "translate(" + d.x + "," + d.y + ")"; });
+            
+        links
+            .attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+    });
+            
+    force.start()
+
+}
+
+
+function update_link_data(){
+}
 
 Array.prototype.indexOfOrAdd = function(key){
     if(this.indexOf(key) == -1){
