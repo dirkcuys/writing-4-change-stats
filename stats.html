@@ -6,8 +6,8 @@
       var API_KEY = 'AIzaSyApk0CWJnKFd_BIkBZTL88XBhmrN1Md-C8';
       var SCOPES = [
           'https://www.googleapis.com/auth/drive.file',
-          'https://www.googleapis.com/auth/userinfo.email',
-          'https://www.googleapis.com/auth/userinfo.profile',
+          //'https://www.googleapis.com/auth/userinfo.email',
+          //'https://www.googleapis.com/auth/userinfo.profile',
           // Add other scopes needed by your application.
         ];
 
@@ -24,7 +24,7 @@
        */
       function checkAuth() {
         gapi.auth.authorize(
-            {'client_id': CLIENT_ID, 'scope': SCOPES.join(' '), 'immediate': false},
+            {'client_id': CLIENT_ID, 'scope': SCOPES.join(' '), 'immediate': true},
             handleAuthResult);
       }
 
