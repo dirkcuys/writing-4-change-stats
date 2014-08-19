@@ -43,7 +43,8 @@ function updateD3(){
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; })
-        .style('stroke-width', '1');
+        .style('stroke', '#9ecae1')
+        .style('stroke-width', 1);
 
     var nodes = svg.selectAll("circle").data(collabData);
 
@@ -51,7 +52,7 @@ function updateD3(){
         .nodes(collabData)
         .charge(function(d){ return -0.5*d.r; })
         .links(link_data)
-        .linkDistance(20)
+        .linkDistance(100)
         .gravity(0)
         .size([width/2.0, height/2.0]);
 
