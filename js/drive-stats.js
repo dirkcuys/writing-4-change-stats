@@ -17,8 +17,8 @@ var authors = [];
 var width = 500, height = 500;
 var force = d3.layout.force();
 force
-    .charge(-50)
-    .linkDistance(100)
+    .charge(-20)
+    .linkDistance(50)
     .gravity(0)
     .size([width/2.0, height/2.0]);
 
@@ -29,19 +29,21 @@ var svg = d3.select("svg")
     .attr("height", height);
 
 var links = svg.selectAll(".link").data(link_data);
-var nodes = svg.selectAll("circle").data(collabData);
+var nodes = svg.selectAll(".node").data(collabData);
+var labels = svg.selectAll(".labels").data(collabData);
 
 force.on("tick", function(e){
     // Push nodes toward their designated focus.
-    var k = .1 * e.alpha;
+    /*var k = .1 * e.alpha;
     collabData.forEach(function(o, i){
         o.y += (height/2.0 - o.y) * k;
         o.x += (width/2.0 - o.x) * k;
-    });
+    });*/
    
     nodes.attr("cx", function(d){ return d.x; })
         .attr("cy", function(d){ return d.y; });
-        //labels.attr("transform", function(d){ return "translate(" + d.x + "," + d.y + ")"; });
+    
+    labels.attr("transform", function(d){ return "translate(" + d.x + "," + d.y + ")"; });
         
     links
         .attr("x1", function(d) { return d.source.x; })
@@ -88,6 +90,11 @@ function updateD3(){
         .style({'fill': function(d){ return d3.rgb(255,255*Math.random(),64*Math.random()).toString() }})
         .attr("r", 8)
         .call(force.drag);
+
+    labels = labels.data(collabData);
+    labels.enter().append('g').attr('class', 'label').append('text')
+        .text(function(d){ return d.label; });
+
     force.start()
 }
 
