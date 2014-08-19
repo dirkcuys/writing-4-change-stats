@@ -63,7 +63,7 @@ function makeApiCall() {
     });
   });
 
-  gapi.client.load('drive', 'v1', function(){
+  gapi.client.load('drive', 'v2', function(){
     retrieveAllFiles(function(result){
       document.getElementById('filelist').appendChild(result);
     });
