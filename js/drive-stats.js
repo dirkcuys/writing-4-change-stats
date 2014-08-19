@@ -5,13 +5,6 @@
 // where you will be running the script.
 var clientId = '585006561260-90e9ktc7m2vjh6e0k7e05jdp2qgbh1kj.apps.googleusercontent.com';
 
-// Enter the API key from the Google Develoepr Console - to handle any unauthenticated
-// requests in the code.
-// The provided key works for this sample only when run from
-// https://google-api-javascript-client.googlecode.com/hg/samples/authSample.html
-// To use in your own application, replace this API key with your own.
-//var apiKey = 'AIzaSyApk0CWJnKFd_BIkBZTL88XBhmrN1Md-C8';
-
 // To enter one or more authentication scopes, refer to the documentation for the API.
 var scopes = [
   'https://www.googleapis.com/auth/plus.me',
@@ -22,6 +15,13 @@ var scopes = [
 var collabData = [];
 var authors = [];
 
+var width = 500, height = 500;
+
+var svg = d3.select("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var force = d3.layout.force();
 
 Array.prototype.indexOfOrAdd = function(key){
     if(this.indexOf(key) == -1){
@@ -43,7 +43,6 @@ function addCollabLink(from, to){
 
 // Use a button to handle authentication the first time.
 function handleClientLoad() {
-  //gapi.client.setApiKey(apiKey);
   window.setTimeout(checkAuth,1);
 }
 
@@ -96,7 +95,9 @@ function makeApiCall() {
               var collaboratorList = document.createElement('ul');
               collaborators.forEach(function(userName){
                   fileObj.ownerNames.forEach(function(ownerName){
-                      addCollabLink(ownerName, userName);
+                      if (ownerName != userName){
+                        addCollabLink(ownerName, userName);
+                      }
                   });
                   var revElem = document.createElement('li');
                   revElem.innerHTML = userName;
