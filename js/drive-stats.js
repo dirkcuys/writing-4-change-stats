@@ -95,7 +95,7 @@ function makeApiCall() {
             getCollaborators(fileObj.id, function(collaborators){
               var collaboratorList = document.createElement('ul');
               collaborators.forEach(function(userName){
-                  fileObj.ownerNames.each(function(ownerName){
+                  fileObj.ownerNames.forEach(function(ownerName){
                       addCollabLink(ownerName, userName);
                   });
                   var revElem = document.createElement('li');
