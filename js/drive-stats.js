@@ -25,12 +25,14 @@ var svg = d3.select("svg")
 function updateD3(){
     var link_data = [];
     authors.forEach(function (source, sourceIndex){
-        collabData[sourceIndex].links.forEach(function(target){
-            link_data.push({
-                source: authors[sourceIndex],
-                target: authors[authors.indexOf(target)]
+        if (collabData[sourceIndex] && collabData[sourceIndex].links){
+            collabData[sourceIndex].links.forEach(function(target){
+                link_data.push({
+                    source: authors[sourceIndex],
+                    target: authors[authors.indexOf(target)]
+                });
             });
-        });
+        }
     });
 
     var links = svg.selectAll(".link").data(link_data);
