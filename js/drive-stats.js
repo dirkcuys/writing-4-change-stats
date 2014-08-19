@@ -65,7 +65,9 @@ function makeApiCall() {
 
   gapi.client.load('drive', 'v2', function(){
     retrieveAllFiles(function(result){
-      document.getElementById('filelist').appendChild(result);
+      result.forEach(function(fileObj){
+        document.getElementById('filelist').appendChild('<li>' + fileObj.title + '</li>');
+      });
     });
   });
 }
