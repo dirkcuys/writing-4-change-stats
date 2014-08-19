@@ -19,6 +19,28 @@ var scopes = [
   'https://www.googleapis.com/auth/drive.readonly',
 ];
 
+var collabData = [];
+var authors = [];
+
+
+Array.prototype.indexOfOrAdd = function(key){
+    if(this.indexOf(key) == -1){
+        this.push(key);
+    }
+    return this.indexOf(key);
+}
+
+
+function addCollabLink(from, to){
+    var fI = authors.indexOfOrAdd(from);
+    var tI = authors.indexOfOrAdd(to);
+    if (collabData[fI] == undefined){
+        collabData[fI] = {"label": from, "links": []};
+    }
+    collabData[fI].links.indexOfOrAdd(to);
+}
+
+
 // Use a button to handle authentication the first time.
 function handleClientLoad() {
   //gapi.client.setApiKey(apiKey);
@@ -73,6 +95,9 @@ function makeApiCall() {
             getCollaborators(fileObj.id, function(collaborators){
               var collaboratorList = document.createElement('ul');
               collaborators.forEach(function(userName){
+                  fileObj.ownerNames.each(function(ownerName){
+                      addCollabLink(ownerName, userName);
+                  });
                   var revElem = document.createElement('li');
                   revElem.innerHTML = userName;
                   collaboratorList.appendChild(revElem);
