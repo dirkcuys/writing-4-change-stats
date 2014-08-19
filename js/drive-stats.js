@@ -17,9 +17,10 @@ var authors = [];
 
 var width = 500, height = 500;
 var force; 
+var link_data;
 
 function updateD3(){
-    var link_data = [];
+    link_data = [];
     authors.forEach(function (source, sourceIndex){
         if (collabData[sourceIndex] && collabData[sourceIndex].links){
             collabData[sourceIndex].links.forEach(function(target){
