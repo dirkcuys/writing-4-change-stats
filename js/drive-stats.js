@@ -68,6 +68,18 @@ function makeApiCall() {
       result.forEach(function(fileObj){
         var elem = document.createElement('li');
         elem.innerHTML = fileObj.title;
+        if (fileObj.shared){
+            // get stats
+            getFileRevisions(fileObj.id, function(revisions){
+              var revList = document.createElement('ul');
+              revisions.forEach(function(revision){
+                  var revElem = document.createElement('li');
+                  revElem.innerHTML = revision.lastModifyingUserName;
+                  revList.appendChild(revElem);
+              });
+              elem.appendChild(revList);
+            });
+        }
         document.getElementById('filelist').appendChild(elem);
       });
     });
@@ -93,4 +105,10 @@ function retrieveAllFiles(callback) {
   }
   var initialRequest = gapi.client.drive.files.list();
   retrievePageOfFiles(initialRequest, []);
+}
+
+function getFileRevisions(fileId, callback){
+  var initialRequest = gapi.client.drive.revisions.list({'fileId': fileId});
+  // TODO Get all pages
+  initialRequest.execute(callback);
 }
