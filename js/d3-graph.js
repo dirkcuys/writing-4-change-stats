@@ -1,6 +1,6 @@
 var D3Graph = (function(){
 
-    var width = 1000, height = 1000;
+    var width = 1000, height = 500;
     var force = d3.layout.force();
     force
         .charge(-1)
