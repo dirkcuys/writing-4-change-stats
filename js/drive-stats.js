@@ -3,7 +3,7 @@
 // https://google-api-javascript-client.googlecode.com/hg/samples/authSample.html
 // In your Developer Console project, add a JavaScript origin that corresponds to the domain
 // where you will be running the script.
-var clientId = '585006561260-90e9ktc7m2vjh6e0k7e05jdp2qgbh1kj.apps.googleusercontent.com';
+var clientId = '145460447596-t38kgvlu39lmqau211p8svdsqicfqdu1.apps.googleusercontent.com';
 
 // To enter one or more authentication scopes, refer to the documentation for the API.
 var scopes = [
