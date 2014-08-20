@@ -75,7 +75,7 @@ function makeApiCall() {
               var collaboratorList = document.createElement('ul');
               collaborators.forEach(function(userName){
                   fileObj.ownerNames.forEach(function(ownerName){
-                      if (ownerName != userName){
+                      if (ownerName != userName && userName != 'undefined'){
                         D3Graph.addLink(ownerName, userName);
                       }
                   });
