@@ -72,6 +72,7 @@ var D3Graph = (function(){
             .attr('text-anchor', 'middle')
             .style('font-size', '20px')
             .append('text')
+            .attr('pointer-events', 'none')
             .text(function(d){ return d.key; });
 
         force.start();
