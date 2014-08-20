@@ -12,112 +12,12 @@ var scopes = [
   'https://www.googleapis.com/auth/drive.readonly',
 ];
 
-var authors = [];
-
-var width = 500, height = 500;
-var force = d3.layout.force();
-force
-    .charge(-20)
-    .linkDistance(50)
-    .gravity(0)
-    .size([width/2.0, height/2.0]);
-
-var collabData = force.nodes();
-var link_data = force.links();
-var svg = d3.select("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-var links = svg.selectAll(".link").data(link_data);
-var nodes = svg.selectAll(".node").data(collabData);
-var labels = svg.selectAll(".labels").data(collabData);
-
-force.on("tick", function(e){
-    // Push nodes toward their designated focus.
-    var k = .1 * e.alpha;
-    collabData.forEach(function(o, i){
-        o.y += (height/2.0 - o.y) * k;
-        o.x += (width/2.0 - o.x) * k;
-    });
-   
-    nodes.attr("cx", function(d){ return d.x; })
-        .attr("cy", function(d){ return d.y; });
-    
-    labels.attr("transform", function(d){ return "translate(" + d.x + "," + d.y + ")"; });
-        
-    links
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-});
-
-
-function updateD3(){
-    var svg = d3.select("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-
-    /*link_data = [];
-    authors.forEach(function (source, sourceIndex){
-        if (collabData[sourceIndex] && collabData[sourceIndex].links){
-            collabData[sourceIndex].links.forEach(function(target){
-                link_data.push({
-                    source: collabData[sourceIndex],
-                    target: collabData[authors.indexOf(target)]
-                });
-            });
-        }
-    });*/
-
-    links = links.data(link_data);
-    links.enter().append("line")
-        .attr("class", "link")
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; })
-        .style('stroke', '#9ecae1')
-        .style('stroke-width', 1);
-
-    nodes = nodes.data(collabData);
-
-    nodes.enter().append("circle")
-        .attr("class", "node")
-        .attr("cx", function(d){ return d.x; })
-        .attr("cy", function(d){ return d.y; })
-        .style({'fill': function(d){ return d3.rgb(255,255*Math.random(),64*Math.random()).toString() }})
-        .attr("r", 8)
-        .call(force.drag);
-
-    labels = labels.data(collabData);
-    labels.enter().append('g').attr('class', 'label').append('text')
-        .text(function(d){ return d.label; });
-
-    force.start()
-}
-
 
 Array.prototype.indexOfOrAdd = function(key){
     if(this.indexOf(key) == -1){
         this.push(key);
     }
     return this.indexOf(key);
-}
-
-
-function addCollabLink(from, to){
-    var fI = authors.indexOfOrAdd(from);
-    var tI = authors.indexOfOrAdd(to);
-    if (collabData[fI] == undefined){
-        collabData[fI] = {"label": from, "links": []};
-    }
-    if (collabData[tI] == undefined){
-        collabData[tI] = {"label": to, "links": []};
-    }
-    collabData[fI].links.indexOfOrAdd(to);
-    link_data.push({source: collabData[fI], target: collabData[tI]});
 }
 
 
@@ -176,8 +76,7 @@ function makeApiCall() {
               collaborators.forEach(function(userName){
                   fileObj.ownerNames.forEach(function(ownerName){
                       if (ownerName != userName){
-                        addCollabLink(ownerName, userName);
-                        updateD3();
+                        D3Graph.addLink(ownerName, userName);
                       }
                   });
                   var revElem = document.createElement('li');
