@@ -11,8 +11,8 @@ var D3Graph = (function(){
     var nodesData = force.nodes();
     var linkData = force.links();
     var svg = d3.select("svg")
-        .attr("width", width)
-        .attr("height", height);
+        .attr("viewBox", "0 0 " + width + " " + height )
+        .attr("preserveAspectRatio", "xMidYMid meet");
 
     var links = svg.selectAll(".link").data(linkData);
     var nodes = svg.selectAll(".node").data(nodesData);
@@ -20,11 +20,11 @@ var D3Graph = (function(){
 
     force.on("tick", function(e){
         // Push nodes toward their designated focus.
-        var k = .1 * e.alpha;
+        /*var k = .1 * e.alpha;
         nodesData.forEach(function(o, i){
             o.y += (height/2.0 - o.y) * k;
             o.x += (width/2.0 - o.x) * k;
-        });
+        });*/
        
         nodes.attr("cx", function(d){ return d.x; })
             .attr("cy", function(d){ return d.y; });
@@ -66,7 +66,12 @@ var D3Graph = (function(){
             .call(force.drag);
 
         labels = labels.data(nodesData);
-        labels.enter().append('g').attr('class', 'label').append('text')
+        labels.enter().append('g')
+            .attr('class', 'label')
+            .attr('pointer-events', 'none')
+            .attr('text-anchor', 'middle')
+            .style('font-size', '20px')
+            .append('text')
             .text(function(d){ return d.key; });
 
         force.start();
@@ -101,7 +106,9 @@ var D3Graph = (function(){
             linkData.push(link);
             redraw();
         },
-        links: linkData,
-        nodes: nodesData,
+        debug: {
+            links: linkData,
+            nodes: nodesData
+        }
     };
 })();
