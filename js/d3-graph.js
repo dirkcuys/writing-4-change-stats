@@ -3,8 +3,8 @@ var D3Graph = (function(){
     var width = 1000, height = 1000;
     var force = d3.layout.force();
     force
-        .charge(-5)
-        .linkDistance(20)
+        .charge(-1)
+        .linkDistance(50)
         .gravity(0)
         .size([width/2.0, height/2.0]);
 
