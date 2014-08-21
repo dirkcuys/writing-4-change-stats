@@ -1,12 +1,11 @@
 var D3Graph = (function(){
 
-    var width = 1000, height = 500;
+    var width = 1000, height = 600;
     var force = d3.layout.force();
     force
-        .charge(-1)
-        .linkDistance(50)
-        .gravity(0)
-        .size([width/2.0, height/2.0]);
+        .charge(-250)
+        .linkDistance(100)
+        .size([width, height]);
 
     var nodesData = force.nodes();
     var linkData = force.links();
