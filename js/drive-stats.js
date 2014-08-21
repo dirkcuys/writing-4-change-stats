@@ -139,12 +139,11 @@ function randomName(){
 };
 
 function test_d3(link_count){
-    if (link_count <= 0){
+    if (parseInt(link_count) <= 0){
         return;
     }
     window.setTimeout(function(){
-        addCollabLink(randomName(), randomName());
-        updateD3();
-        test_d3(link_count - 1);
+        D3Graph.addLink(randomName(), randomName());
+        test_d3(--link_count);
     }, Math.random()*1000);
 }
